@@ -1,0 +1,29 @@
+[
+  {
+    "model": "Location",
+    "data":
+    {
+      "lat": 28.6139,
+      "lon":77.2090,
+      "city": "New Delhi",
+      "state": "Delhi",
+      "country": "India",
+      "countryCode": "IN",
+      "continent": "AS"
+    }
+  },
+  {
+    "model": "Location",
+    "data":
+    {
+      "lat": 19.0607,
+      "lon":72.8362,
+      "locality": "Bandra",
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "country": "India",
+      "countryCode": "IN",
+      "continent": "AS"
+    }
+  }
+]

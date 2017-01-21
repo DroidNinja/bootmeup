@@ -1,0 +1,6 @@
+{
+	FORCE_DB_SYNC: "true", // must be string to allow environment variable override
+    enableSequelizeLog: "true", // type chosen as string for no particular reason
+    expressSessionSecret: '$uper$ecret$e$$ionKey', // replace with your own in production
+    inviteCodeSalt: '$uper$ecret$e$$ionKey123' // replace with your own in production
+}

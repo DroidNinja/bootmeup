@@ -1,0 +1,11 @@
+<section data-ng-init="find()">
+	<ul class="articles unstyled">
+		<li data-ng-repeat="article in articles">
+			<span>{{article.updatedAt | date:'medium'}}</span> /
+			<span>{{article.User.displayName}}</span>
+			<h2><a ui-sref="viewArticle({articleId : article.id})">{{article.title}}</a></h2>
+			<div>{{article.content}}</div>
+		</li>
+	</ul>
+	<h1 data-ng-hide="!articles || articles.length">No articles yet. <br> Why don't you <a ui-sref="createArticle">Create One</a>?</h1>
+</section>
