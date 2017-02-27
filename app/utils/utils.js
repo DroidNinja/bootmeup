@@ -186,3 +186,20 @@ exports.merge = function (arr1, arr2, key) {
         .value(); // get the value (array) out of the sequence
 };
 
+exports.contains = function (source, checkArray) {
+  for(var index=0;index<checkArray.length; index++)
+  {
+      if(_.includes(source, checkArray[index]))
+        return true;
+  }
+    return false;
+};
+
+exports.arrayContainsAnotherArray = function(needle, haystack){
+    for(var i = 0; i < needle.length; i++){
+        if(haystack.indexOf(needle[i]) === -1)
+            return false;
+    }
+    return true;
+};
+

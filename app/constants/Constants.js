@@ -13,6 +13,15 @@ module.exports = Object.freeze({
       GET: 'GET',
         POST: 'POST'
     },
+    METRIC_TYPE:{
+    CELSIUS: 1,
+    FAHRENHEIT: 2
+    },
+    PLACE_TYPE: {
+        LOCATION: "LOCATION",
+        RESTAURANT: "RESTAURANT",
+        ATTRACTION: "ATTRACTION"
+    },
     QUERY_TYPE: {
         LATEST: 1,
         OLDER: 2
