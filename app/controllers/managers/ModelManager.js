@@ -17,39 +17,16 @@ ModelManager.prototype.getUserModel  = function(dbObj)
 
     var userObj = {};
     userObj.userId = dbObj.userId;
-    userObj.displayName = dbObj.firstName + " " + dbObj.lastName;
-    userObj.email = dbObj.primaryEmail;
-    userObj.userType = dbObj.userType;
+    userObj.displayName = _.trim(dbObj.firstName + " " + dbObj.lastName);
+    userObj.email = dbObj.email;
     userObj.gender = dbObj.gender;
-    userObj.bio = dbObj.bio;
-    userObj.birthDate = utils.getFormattedDateFromDBDate(dbObj.birthDate);
-    userObj.phone = dbObj.phone;
     userObj.nationality = dbObj.nationality;
     userObj.pictureUrl = dbObj.pictureUrl;
-    userObj.currentLocation = this.getLocationModel(dbObj.currentLoc);
-    userObj.homeLocation = this.getLocationModel(dbObj.homeLoc);
-    userObj.isTravelerTypeSet = dbObj.isTravelTypeSet;
-    userObj.isInterestsSet = dbObj.isInterestsSet;
-   var inviteCodeModel = this.getInviteModel(dbObj.inviteCode);
-    if(!_.isNull(inviteCodeModel))
-        userObj.inviteCode = inviteCodeModel.inviteCode;
-
-    if(!_.isUndefined(dbObj.last_active))
-        userObj.lastActive = utils.getTimestampFromDBDate(dbObj.last_active);
+    userObj.coverUrl = dbObj.coverUrl;
+    userObj.countryCode = dbObj.countryCode;
 
     return userObj;
 };
-
-ModelManager.prototype.getUserType = function(userObj)
-{
-    if(userObj.currentLocation.country!=userObj.userLocation.country || userObj.currentLocation.country!=userObj.nationality)
-        return Constants.USER_TYPE.EXPAT;
-    else if(userObj.currentLocation.city!=userObj.userLocation.city || userObj.currentLocation.state!=userObj.userLocation.state)
-        return Constants.USER_TYPE.TRAVELER;
-    else
-        return Constants.USER_TYPE.LOCAL;
-};
-
 
 ModelManager.prototype.getShortUserModel  = function(dbObj)
 {
@@ -58,11 +35,16 @@ ModelManager.prototype.getShortUserModel  = function(dbObj)
 
     var userObj = {};
     userObj.userId = dbObj.userId;
-    userObj.displayName = dbObj.firstName + " " + dbObj.lastName;
-    userObj.userType = dbObj.userType;
+    userObj.displayName = _.trim(dbObj.firstName + " " + dbObj.lastName);
     userObj.pictureUrl = dbObj.pictureUrl;
-    if(!_.isUndefined(dbObj.last_active))
-        userObj.lastActive = utils.getTimestampFromDBDate(dbObj.last_active);
+    userObj.coverUrl = dbObj.coverUrl;
+    userObj.nationality = dbObj.nationality;
+    userObj.countryCode = dbObj.countryCode;
+
+    if(!_.isUndefined(dbObj.level))
+    {
+        userObj.level = _.isNull(dbObj.level)?1:dbObj.level;
+    }
 
     return userObj;
 };
@@ -92,22 +74,6 @@ ModelManager.prototype.getMediaModel = function(mediaObj)
     mediaModel.mediaId = mediaObj.mediaId;
     mediaModel.url = mediaObj.url;
     mediaModel.type = mediaObj.type;
-    mediaModel.meta = mediaObj.meta;
-
-    if(!_.isUndefined(mediaObj.entityId))
-        mediaModel.postId = mediaObj.entityId;
-
-    if(!_.isUndefined(mediaObj.likesCount))
-        mediaModel.likesCount = mediaObj.likesCount;
-
-    if(!_.isUndefined(mediaObj.commentCount))
-        mediaModel.commentCount = mediaObj.commentCount;
-
-    if(!_.isUndefined(mediaObj.shareCount))
-        mediaModel.shareCount = mediaObj.shareCount;
-
-    if(!_.isUndefined(mediaObj.isLikedByMe))
-        mediaModel.isLikedByMe = _.isNull(mediaObj.isLikedByMe)?false:(mediaObj.isLikedByMe==1);
 
     return mediaModel;
 };
@@ -123,34 +89,6 @@ ModelManager.prototype.getMediaArray = function(mediaArray)
         locationArray.push(this.getMediaModel(mediaArray[index]));
     }
     return locationArray;
-};
-
-ModelManager.prototype.getCategoryModel = function(categoryModelObj)
-{
-    if(_.isUndefined(categoryModelObj))
-        return null;
-
-    var categoryObj = {};
-
-    categoryObj.categoryId = categoryModelObj.categoryId;
-    categoryObj.type = categoryModelObj.type;
-    categoryObj.subCategories = this.getCategoryArray(categoryModelObj.subcategories);
-
-    return categoryObj;
-};
-
-ModelManager.prototype.getCategoryArray = function(arrayObj)
-{
-    if(_.isUndefined(arrayObj))
-        return [];
-
-    var categoryArray = [];
-    for(var index=0;index<arrayObj.length;index++)
-    {
-        categoryArray.push(this.getCategoryModel(arrayObj[index]));
-    }
-
-    return categoryArray;
 };
 
 module.exports = ModelManager.prototype;

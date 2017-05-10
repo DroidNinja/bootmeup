@@ -11,10 +11,13 @@ module.exports = function(sequelize, DataTypes) {
 	var User = sequelize.define('User', 
 		{
 			userId: {
-				type: DataTypes.BIGINT,
+				type: DataTypes.BIGINT(11),
 				allowNull: false,
 				primaryKey: true,
-				autoincrement: true
+				references: {
+					model: 'entity',
+					key: 'entityId'
+				}
 			},
 			firstName: {
 				type: DataTypes.STRING,
@@ -24,6 +27,11 @@ module.exports = function(sequelize, DataTypes) {
 				type: DataTypes.STRING,
 				allowNull: false,
 				defaultValue: ''
+			},
+			userType: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				defaultValue: 'USER'
 			},
 			email:{
 				type: DataTypes.STRING(191),
@@ -35,15 +43,36 @@ module.exports = function(sequelize, DataTypes) {
 				allowNull: false,
 				defaultValue: 'OTHERS'
 			},
+			nationality:{
+				type: DataTypes.STRING,
+				allowNull: true
+			},
+			countryCode:{
+				type: DataTypes.STRING,
+				allowNull: true
+			},
 			fbId:{
 				type: DataTypes.STRING,
-				allowNull: false
+				allowNull: true
 			},
-			accessToken:{
+			fbToken:{
 				type: DataTypes.TEXT,
-				allowNull: false
+				allowNull: true
+			},
+			googleId:{
+				type: DataTypes.STRING,
+				allowNull: true
+			},
+			googleToken:{
+				type: DataTypes.TEXT,
+				allowNull: true
 			},
 			pictureUrl: {
+				type: DataTypes.STRING,
+				allowNull: true,
+				defaultValue: ""
+			},
+			coverUrl: {
 				type: DataTypes.STRING,
 				allowNull: true,
 				defaultValue: ""

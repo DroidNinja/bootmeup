@@ -92,6 +92,11 @@ exports.validateRegistrationData = function (req, res, next)
     userObj.profileId = req.body.profileId;
     userObj.accessToken = req.body.accessToken;
     userObj.pictureUrl = req.body.pictureUrl;
+    userObj.coverUrl = req.body.coverUrl;
+    userObj.nationality = req.body.nationality;
+    userObj.provider = req.body.provider;
+    userObj.countryCode = req.body.countryCode;
+    userObj.userType = Constants.USER_TYPE.USER;
 
     var attributes = {
         firstName: userObj.firstName,
@@ -99,6 +104,8 @@ exports.validateRegistrationData = function (req, res, next)
         gender: userObj.gender,
         profileId: userObj.profileId,
         accessToken: userObj.accessToken,
+        nationality: userObj.nationality,
+        provider: userObj.provider
     };
 
     var constraints = {
@@ -106,7 +113,9 @@ exports.validateRegistrationData = function (req, res, next)
         firstName: constraintObjs.checkPresence,
         gender: constraintObjs.checkPresence,
         profileId: constraintObjs.checkPresence,
-        accessToken: constraintObjs.checkPresence
+        accessToken: constraintObjs.checkPresence,
+        nationality: constraintObjs.checkPresence,
+        provider: constraintObjs.checkPresence
     };
 
     validate.async(attributes, constraints).then(function()

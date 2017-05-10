@@ -26,13 +26,40 @@ const ModelManager = require('./managers/ModelManager');
     AuthController.prototype.signUp = function(req, res) {
         var userObj = req.userObj;
 
-        verifyFacebookUserAccessToken(userObj.fb.profileId, userObj.fb.accessToken, function(err)
-        {
-            if(err)
-                return utils.printError(res, Constants.ERROR_TYPE.INVALID_TOKEN);
+        if(userObj.provider==Constants.PROVIDER.FACEBOOK) {
+            verifyFacebookUserAccessToken(userObj.profileId, userObj.accessToken, function (err) {
+                if (err)
+                    return utils.printError(res, Constants.ERROR_TYPE.INVALID_TOKEN);
 
+                createUser(userObj, function (err, response) {
+                    if(!err)
+                    {
+                        UserController.getFacebookFriends(response.userDetails.userId,req.userObj.accessToken);
+                        return utils.printResponse(res, response, Constants.MESSAGES.SUCCESS_MESSAGE);
+                    }
+                    else
+                        return utils.printError(res, err);
+                });
+            });
+        }
+        else if(userObj.provider==Constants.PROVIDER.GOOGLE) {
+            verifyGoogleAccessToken(userObj.profileId, userObj.accessToken, function (err) {
+                if (err)
+                    return utils.printError(res, Constants.ERROR_TYPE.INVALID_TOKEN);
 
-        });
+                createUser(userObj,function (err, response) {
+                    if(!err)
+                    {
+                        return utils.printResponse(res, response, Constants.MESSAGES.SUCCESS_MESSAGE);
+                    }
+                    else
+                        return utils.printError(res, err);
+                });
+            });
+        }
+        else {
+            return utils.printError(res, Constants.ERROR_TYPE.INVALID_PARAMETERS);
+        }
     };
 
 
@@ -146,6 +173,46 @@ module.exports = AuthController.prototype;
 /**
  * ********** PRIVATE METHODS ******************
  */
+
+var createUser = function (userObj,done) {
+    DBUserManager.checkIfUserExists(userObj.email, function (err, user) {
+        if(!err)
+        {
+            if(user!=null)
+            {
+                DBUserManager.update({
+                    firstName: _.startCase(_.toLower(userObj.firstName)),
+                    lastName: _.startCase(_.toLower(userObj.lastName)),
+                    gender: (userObj.gender === "") ? 'OTHERS' : userObj.gender,
+                    pictureUrl: userObj.pictureUrl,
+                    coverUrl: userObj.coverUrl,
+                    countryCode: userObj.countryCode,
+                    fbId: userObj.fbId,
+                    fbToken: userObj.fbToken,
+                    googleId: userObj.googleId,
+                    googleToken: userObj.googleToken,
+                    nationality: userObj.nationality
+                }, user.userId, function(err, data){
+                    generateToken(done, user);
+                });
+            }
+            else
+            {
+                DBUserManager.create(userObj, function (err, dbObj) {
+                    if (!err) {
+                        generateToken(done, dbObj);
+                    }
+                    else {
+                        done(err, null);
+                    }
+                });
+            }
+        }
+        else
+            done(err, null);
+    });
+};
+
 
 // Call facebook API to verify the token is valid
 // https://graph.facebook.com/me?access_token=$token

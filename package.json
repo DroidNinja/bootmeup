@@ -67,6 +67,7 @@
     "ng-file-upload": "^12.0.4",
     "node-base64-image": "^1.0.3",
     "node-googleplaces": "^0.1.2",
+    "node-uuid": "^1.4.8",
     "node-wikipedia": "0.0.2",
     "oembed-auto": "0.0.3",
     "passport": "^0.3.2",

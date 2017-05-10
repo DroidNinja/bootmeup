@@ -19,8 +19,7 @@ winston.info('Starting '+config.app.name+'...');
 winston.info('Config loaded: '+config.NODE_ENV);
 winston.debug('Accepted Config:',config);
 
-//var db              = require('./config/sequelize');
-
+var db              = require('./config/sequelize');
 //var passport        = require('./config/passport');
 
 var app = express();

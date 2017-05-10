@@ -13,6 +13,12 @@ module.exports = Object.freeze({
       GET: 'GET',
         POST: 'POST'
     },
+    USER_TYPE:{
+      USER: 'USER'
+    },
+    ENTITY_TYPE:{
+        USER: 1
+    },
     METRIC_TYPE:{
     CELSIUS: 1,
     FAHRENHEIT: 2
@@ -134,9 +140,5 @@ module.exports = Object.freeze({
     ACCESS_TOKEN_HEADER: 'x-access-token',
     FACEBOOK_ACCESS_TOKEN_URL: 'https://graph.facebook.com/me?access_token=',
     GOOGLE_ACCESS_TOKEN_URL: 'https://www.googleapis.com/oauth2/v1/tokeninfo?id_token=',
-    TWITTER_CREDENTIALS: {
-        CONSUMER_KEY: 'H1oKTpNxzal6Hx66aRPXBHzjE',
-        CONSUMER_SECRET: 'efRTr5Vipr0nZ9PLNQYyBY7PdacWVCUcEAXpCGk6V4eTfGKgXJ'
-    },
-    GOOGLE_GEO_LOCATION_KEY: 'AIzaSyCRhkRXK185F3483q41KeQfozIaPAkp0yw'
+    GOOGLE_GEO_LOCATION_KEY: ''
 });

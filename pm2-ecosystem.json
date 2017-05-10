@@ -1,7 +1,7 @@
 {
   "apps" : [{
     // mean-stack-relational app
-    "name"       : "Quizzer",
+    "name"       : "Appscreens",
     "script"     : "app.js",
     // by default, the app runs in fork mode, uncomment below to run in cluster mode
     //"instances"  : 4,
